@@ -7,7 +7,7 @@ project "3D-Game"
     targetdir "build/%{cfg.buildcfg}"
     links { "GL", "GLEW", "glfw" }
 
-    files { "./src/*.h", "./src/*.hpp", "./src/*.c", "./src/*.cpp" }
+    files { "src/*.h", "src/*.hpp", "src/*.c", "src/*.cpp" }
 
     filter "configurations:Debug"
         defines { "DEBUG" }
