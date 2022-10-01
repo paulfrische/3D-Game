@@ -8,7 +8,6 @@
 
 #include "math_util.tcc"
 
-namespace util
-{
-    glm::vec3 eulerToVector(float pitch, float yaw);
+namespace util {
+glm::vec3 eulerToVector(float pitch, float yaw);
 }

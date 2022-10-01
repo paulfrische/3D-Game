@@ -4,8 +4,8 @@
 #include <string>
 
 // reduce boilerplate in main file
-GLFWwindow* setup();
+GLFWwindow *setup();
 void terminate();
 
-const char* read_file(std::string path);
-unsigned int make_program(const char* vertexPath, const char* fragmentPath);
+const char *read_file(std::string path);
+unsigned int make_program(const char *vertexPath, const char *fragmentPath);
