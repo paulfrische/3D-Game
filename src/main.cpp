@@ -22,6 +22,9 @@
 #include <glm/trigonometric.hpp>
 #include <math.h>
 
+// camera
+#include "camera.hpp"
+
 struct vertex {
     float x;
     float y;
@@ -37,9 +40,19 @@ vertex vertices[] = {
     vertex {  0.0f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f },
 };
 
+double mouseXPos;
+double mouseYPos;
+
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+    mouseXPos = xpos;
+    mouseYPos = ypos;
+}
+
 int main(int argc, char** argv)
 {
     GLFWwindow* window = setup();
+    glfwSetCursorPosCallback(window, mouse_callback);
 
     unsigned int VAO;
     glGenVertexArrays(1, &VAO);
@@ -47,6 +60,10 @@ int main(int argc, char** argv)
 
     unsigned int shader = make_program("./src/shader/vertex.glsl", "./src/shader/fragment.glsl");
     glUseProgram(shader);
+
+    unsigned int model_matrix_location = glGetUniformLocation(shader, "model");
+    /* unsigned int view_matrix_location = glGetUniformLocation(shader, "view"); */
+    /* unsigned int projection_matrix_location = glGetUniformLocation(shader, "projection"); */
 
     unsigned int VBO;
     glGenBuffers(1, &VBO);
@@ -58,10 +75,32 @@ int main(int argc, char** argv)
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
+    Camera cam (glm::vec3(0.0f, 0.0f, 3.0f), 0.0f, -90.0f, glm::vec3(0.0f, 1.0f, 0.0f), 5.0f, 0.01f, 45.0f, window, shader);
+
+    float currentFrame = glfwGetTime();
+    float lastFrame = 0.0f;
+
+    /* glEnable(GL_DEPTH_TEST); */
+
     while (!glfwWindowShouldClose(window))
     {
+        currentFrame = glfwGetTime();
+        float deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+
+        cam.processInput(window, deltaTime);
+        cam.mouse_callback(mouseXPos, mouseYPos);
+        cam.Update();
+
+        glm::mat4 model_matrix = glm::mat4(1.0f);
+        /* glm::mat4 view_matrix = glm::mat4(1.0f); */
+        /* glm::mat4 projection_matrix = glm::mat4(1.0f); */
+        glUniformMatrix4fv(model_matrix_location, 1, GL_FALSE, glm::value_ptr(model_matrix));
+        /* glUniformMatrix4fv(view_matrix_location, 1, GL_FALSE, glm::value_ptr(view_matrix)); */
+        /* glUniformMatrix4fv(projection_matrix_location, 1, GL_FALSE, glm::value_ptr(projection_matrix)); */
+
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
