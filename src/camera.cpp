@@ -22,89 +22,90 @@
 Camera::Camera(glm::vec3 position, float pitch, float yaw, glm::vec3 up,
                float speed, float mouse_sensitivity, float fov,
                GLFWwindow *window, unsigned int shader) {
-  wireframe = false;
+  m_wireframe = false;
 
   this->pitch = pitch;
   this->yaw = yaw;
 
-  this->position = position;
-  this->front = direction();
-  this->up = up;
-  this->speed = speed;
-  this->mouse_sensitivity = mouse_sensitivity;
-  this->fov = fov;
+  this->m_position = position;
+  this->m_front = direction();
+  this->m_up = up;
+  this->m_speed = speed;
+  this->m_mouse_sensitivity = mouse_sensitivity;
+  this->m_fov = fov;
 
-  viewMatrixLocation = glGetUniformLocation(shader, "view");
-  projectionMatrixLocation = glGetUniformLocation(shader, "projection");
+  m_view_matrix_location = glGetUniformLocation(shader, "view");
+  m_projection_matrix_location = glGetUniformLocation(shader, "projection");
 
-  this->viewMatrix = glm::lookAt(position, position + front, up);
-  this->projectionMatrix =
+  this->m_view_matrix = glm::lookAt(position, position + m_front, up);
+  this->m_projection_matrix =
       glm::perspective(glm::radians(fov), 1280.0f / 720.0f, 0.1f, 100.0f);
 }
 
-void Camera::Update() {
-  viewMatrix = glm::lookAt(position, position + front, up);
-  projectionMatrix =
-      glm::perspective(glm::radians(fov), 1280.0f / 720.0f, 0.1f, 100.0f);
+void Camera::update() {
+  m_view_matrix = glm::lookAt(m_position, m_position + m_front, m_up);
+  m_projection_matrix =
+      glm::perspective(glm::radians(m_fov), 1280.0f / 720.0f, 0.1f, 100.0f);
 
   /* this->projectionMatrix = glm::mat4(1.0f); */
   /* this->viewMatrix = glm::mat4(1.0f); */
 
-  if (wireframe)
+  if (m_wireframe)
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   else
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-  glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE,
-                     glm::value_ptr(viewMatrix));
-  glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE,
-                     glm::value_ptr(projectionMatrix));
+  glUniformMatrix4fv(m_view_matrix_location, 1, GL_FALSE,
+                     glm::value_ptr(m_view_matrix));
+  glUniformMatrix4fv(m_projection_matrix_location, 1, GL_FALSE,
+                     glm::value_ptr(m_projection_matrix));
 }
 
-void Camera::processInput(GLFWwindow *window, float delta) {
+void Camera::process_input(GLFWwindow *window, float delta) {
   if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-    position += front * speed * delta;
+    m_position += m_front * m_speed * delta;
 
   if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-    position -= front * speed * delta;
+    m_position -= m_front * m_speed * delta;
 
   if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-    position -= glm::normalize(glm::cross(front, up)) * speed * delta;
+    m_position -= glm::normalize(glm::cross(m_front, m_up)) * m_speed * delta;
 
   if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-    position += glm::normalize(glm::cross(front, up)) * speed * delta;
+    m_position += glm::normalize(glm::cross(m_front, m_up)) * m_speed * delta;
 
   if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-    position += up * speed * delta;
+    m_position += m_up * m_speed * delta;
 
   if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-    position -= up * speed * delta;
+    m_position -= m_up * m_speed * delta;
 
   if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-    speed += 5.0 * delta;
+    m_speed += 5.0 * delta;
 
   if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-    speed -= 5.0 * delta;
+    m_speed -= 5.0 * delta;
 
-  if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS)
-    wireframe = true;
-  else
-    wireframe = false;
+  /* if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS) */
+  /*   m_wireframe = true; */
+  /* else */
+  /*   m_wireframe = false; */
+  m_wireframe = glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS;
 }
 
 glm::vec3 Camera::direction() { return util::eulerToVector(pitch, yaw); }
 
-void Camera::mouse_callback(double xpos, double ypos) {
-  float xoffset = xpos - lastMouseX;
-  float yoffset = ypos - lastMouseY;
+void Camera::mouse_callback(double x_pos, double y_pos) {
+  float x_offset = x_pos - m_last_mouse_x;
+  float y_offset = y_pos - m_last_mouse_y;
 
-  lastMouseX = xpos;
-  lastMouseY = ypos;
+  m_last_mouse_x = x_pos;
+  m_last_mouse_y = y_pos;
 
-  yaw += xoffset * mouse_sensitivity;
-  pitch += yoffset * mouse_sensitivity;
+  yaw += x_offset * m_mouse_sensitivity;
+  pitch += y_offset * m_mouse_sensitivity;
 
   pitch = util::clamp<float>(-89.0f, 89.0f, pitch);
 
-  front = direction();
+  m_front = direction();
 }
