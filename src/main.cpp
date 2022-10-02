@@ -11,6 +11,9 @@
 #include "shader_s.hpp"
 #include "util.hpp"
 
+// chunk
+#include "chunk.hpp"
+
 // image loading
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
@@ -29,16 +32,10 @@
 // camera
 #include "camera.hpp"
 
-#define MAX_FPS 60
+// vertex
+#include "vertex.hpp"
 
-struct vertex {
-  float x;
-  float y;
-  float z;
-  float r;
-  float g;
-  float b;
-};
+#define MAX_FPS 60
 
 vertex vertices[] = {
     vertex{-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f},

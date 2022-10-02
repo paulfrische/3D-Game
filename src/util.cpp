@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include "config.h"
 
 GLFWwindow *setup() {
   glfwInit();
@@ -14,7 +15,7 @@ GLFWwindow *setup() {
 
   glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-  GLFWwindow *window = glfwCreateWindow(1280, 720, "OpenGL", nullptr, nullptr);
+  GLFWwindow *window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, TITLE, nullptr, nullptr);
   glfwMakeContextCurrent(window);
 
   glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);

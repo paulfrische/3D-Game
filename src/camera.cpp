@@ -17,6 +17,9 @@
 // Camera class
 #include "camera.hpp"
 
+// config
+#include "config.h"
+
 #include <iostream>
 
 Camera::Camera(glm::vec3 position, float pitch, float yaw, glm::vec3 up,
@@ -37,15 +40,16 @@ Camera::Camera(glm::vec3 position, float pitch, float yaw, glm::vec3 up,
   m_view_matrix_location = glGetUniformLocation(shader, "view");
   m_projection_matrix_location = glGetUniformLocation(shader, "projection");
 
-  this->m_view_matrix = glm::lookAt(position, position + m_front, up);
-  this->m_projection_matrix =
-      glm::perspective(glm::radians(fov), 1280.0f / 720.0f, 0.1f, 100.0f);
+  /* this->m_view_matrix = glm::lookAt(position, position + m_front, up); */
+  /* this->m_projection_matrix = */
+  /*     glm::perspective(glm::radians(fov), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f); */
+  update();
 }
 
 void Camera::update() {
   m_view_matrix = glm::lookAt(m_position, m_position + m_front, m_up);
   m_projection_matrix =
-      glm::perspective(glm::radians(m_fov), 1280.0f / 720.0f, 0.1f, 100.0f);
+      glm::perspective(glm::radians(m_fov), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
 
   /* this->projectionMatrix = glm::mat4(1.0f); */
   /* this->viewMatrix = glm::mat4(1.0f); */
