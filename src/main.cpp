@@ -40,12 +40,12 @@ vertex vertices[] = {
     vertex{0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f},
 };
 
-double mouseXPos;
-double mouseYPos;
+double mouse_x_position;
+double mouse_y_position;
 
 void mouse_callback(GLFWwindow *window, double xpos, double ypos) {
-  mouseXPos = xpos;
-  mouseYPos = ypos;
+  mouse_x_position = xpos;
+  mouse_y_position = ypos;
 }
 
 int main(int argc, char **argv) {
@@ -80,19 +80,19 @@ int main(int argc, char **argv) {
   Camera cam(glm::vec3(0.0f, 0.0f, 3.0f), 0.0f, -90.0f,
              glm::vec3(0.0f, 1.0f, 0.0f), 5.0f, 0.01f, 45.0f, window, shader);
 
-  float currentFrame = glfwGetTime();
-  float lastFrame = 0.0f;
+  float current_frame = glfwGetTime();
+  float last_frame = 0.0f;
 
   /* glEnable(GL_DEPTH_TEST); */
 
   while (!glfwWindowShouldClose(window)) {
-    currentFrame = glfwGetTime();
-    float deltaTime = currentFrame - lastFrame;
-    lastFrame = currentFrame;
+    current_frame = glfwGetTime();
+    float delta_time = current_frame - last_frame;
+    last_frame = current_frame;
 
-    cam.processInput(window, deltaTime);
-    cam.mouse_callback(mouseXPos, mouseYPos);
-    cam.Update();
+    cam.process_input(window, delta_time);
+    cam.mouse_callback(mouse_x_position, mouse_y_position);
+    cam.update();
 
     glm::mat4 model_matrix = glm::mat4(1.0f);
     /* glm::mat4 view_matrix = glm::mat4(1.0f); */
