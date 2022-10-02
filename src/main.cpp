@@ -118,10 +118,9 @@ int main(int argc, char **argv) {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
       glfwSetWindowShouldClose(window, GL_TRUE);
 
-    if (delta_time < 1.0f/MAX_FPS)
-    {
-        int sleep_duration = (1.0f/MAX_FPS - delta_time) * 1000;
-        std::this_thread::sleep_for(std::chrono::milliseconds(sleep_duration));
+    if (delta_time < 1.0f / MAX_FPS) {
+      int sleep_duration = (1.0f / MAX_FPS - delta_time) * 1000;
+      std::this_thread::sleep_for(std::chrono::milliseconds(sleep_duration));
     }
   }
 
