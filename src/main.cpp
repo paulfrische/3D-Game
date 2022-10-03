@@ -74,17 +74,32 @@ int main(int argc, char **argv) {
   glBindBuffer(GL_ARRAY_BUFFER, VBO);
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertex) * 3, vertices, GL_STATIC_DRAW);
 
+  Camera cam(glm::vec3(0.0f, 0.0f, 3.0f), 0.0f, -90.0f,
+             glm::vec3(0.0f, 1.0f, 0.0f), 5.0f, 0.01f, 45.0f, window, shader);
+
+    std::array<std::array<std::array<unsigned char, CH_DEPTH>, CH_HEIGHT>, CH_WIDTH> blocks {};
+    for (int x = 0; x < CH_WIDTH; x++)
+    {
+        for (int y = 0; y < CH_HEIGHT; y++)
+        {
+            for (int z = 0; z < CH_DEPTH; z++)
+            {
+                blocks[x][y][z] = 1;
+            }
+        }
+    }
+  Chunk chunk(blocks, 0, 0);
+  chunk.genVBO();
+
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void *)0);
   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertex),
                         (void *)(3 * sizeof(float)));
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
 
-  Camera cam(glm::vec3(0.0f, 0.0f, 3.0f), 0.0f, -90.0f,
-             glm::vec3(0.0f, 1.0f, 0.0f), 5.0f, 0.01f, 45.0f, window, shader);
-
   float current_frame = glfwGetTime();
   float last_frame = 0.0f;
+
 
   /* glEnable(GL_DEPTH_TEST); */
 
@@ -110,7 +125,8 @@ int main(int argc, char **argv) {
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    /* glDrawArrays(GL_TRIANGLES, 0, 3); */
+    chunk.render();
 
     glfwSwapBuffers(window);
     glfwPollEvents();

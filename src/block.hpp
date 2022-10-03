@@ -13,4 +13,4 @@ enum class BlockFace {
   WEST,
 };
 
-inline std::array<vertex, 6> Face(BlockFace face);
+std::array<vertex, 6> Face(BlockFace face, int x, int y, int z);
