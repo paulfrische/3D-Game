@@ -77,17 +77,16 @@ int main(int argc, char **argv) {
   Camera cam(glm::vec3(0.0f, 0.0f, 3.0f), 0.0f, -90.0f,
              glm::vec3(0.0f, 1.0f, 0.0f), 5.0f, 0.01f, 45.0f, window, shader);
 
-    std::array<std::array<std::array<unsigned char, CH_DEPTH>, CH_HEIGHT>, CH_WIDTH> blocks {};
-    for (int x = 0; x < CH_WIDTH; x++)
-    {
-        for (int y = 0; y < CH_HEIGHT; y++)
-        {
-            for (int z = 0; z < CH_DEPTH; z++)
-            {
-                blocks[x][y][z] = 1;
-            }
-        }
+  std::array<std::array<std::array<unsigned char, CH_DEPTH>, CH_HEIGHT>,
+             CH_WIDTH>
+      blocks{};
+  for (int x = 0; x < CH_WIDTH; x++) {
+    for (int y = 0; y < CH_HEIGHT; y++) {
+      for (int z = 0; z < CH_DEPTH; z++) {
+        blocks[x][y][z] = 1;
+      }
     }
+  }
   Chunk chunk(blocks, 0, 0);
   chunk.genVBO();
 
@@ -99,7 +98,6 @@ int main(int argc, char **argv) {
 
   float current_frame = glfwGetTime();
   float last_frame = 0.0f;
-
 
   /* glEnable(GL_DEPTH_TEST); */
 

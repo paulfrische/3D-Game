@@ -25,10 +25,9 @@ private:
              CH_WIDTH>
       m_blocks;
 
-  std::vector<vertex> m_chunk_vertices {};
+  std::vector<vertex> m_chunk_vertices{};
 
   unsigned int m_vbo;
   unsigned int m_x;
   unsigned int m_y;
-
 };
