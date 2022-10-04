@@ -35,8 +35,6 @@
 // vertex
 #include "vertex.hpp"
 
-#define MAX_FPS 60
-
 vertex vertices[] = {
     vertex{-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f},
     vertex{0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f},
@@ -99,7 +97,7 @@ int main(int argc, char **argv) {
   float current_frame = glfwGetTime();
   float last_frame = 0.0f;
 
-  /* glEnable(GL_DEPTH_TEST); */
+  glEnable(GL_DEPTH_TEST);
 
   while (!glfwWindowShouldClose(window)) {
     current_frame = glfwGetTime();
@@ -131,11 +129,6 @@ int main(int argc, char **argv) {
 
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
       glfwSetWindowShouldClose(window, GL_TRUE);
-
-    if (delta_time < 1.0f / MAX_FPS) {
-      int sleep_duration = (1.0f / MAX_FPS - delta_time) * 1000;
-      std::this_thread::sleep_for(std::chrono::milliseconds(sleep_duration));
-    }
   }
 
   terminate();
