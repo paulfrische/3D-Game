@@ -34,8 +34,6 @@ public:
       m_blocks;
 
 private:
-
-
   glm::mat4 m_model_matrix = glm::mat4(1.0f);
 
   unsigned int m_model_matrix_location;
@@ -45,20 +43,20 @@ private:
   unsigned int m_y;
 };
 
-class ChunkManager 
-{
-  public:
-    ChunkManager(unsigned int shader);
-    ~ChunkManager();
+class ChunkManager {
+public:
+  ChunkManager(unsigned int shader);
+  ~ChunkManager();
 
-    void generateWorld();
-    void render();
-    void genVBOs();
+  void generateWorld();
+  void render();
+  void genVBOs();
 
-    unsigned char getBlock(unsigned int x, unsigned y, unsigned z);
-    unsigned char setBlock(unsigned int x, unsigned y, unsigned z, unsigned char block);
+  unsigned char getBlock(unsigned int x, unsigned y, unsigned z);
+  unsigned char setBlock(unsigned int x, unsigned y, unsigned z,
+                         unsigned char block);
 
-  private:
-    std::vector<std::vector<Chunk*>> m_chunks {};
-    unsigned int m_shader;
+private:
+  std::vector<std::vector<Chunk *>> m_chunks{};
+  unsigned int m_shader;
 };

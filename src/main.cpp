@@ -82,14 +82,15 @@ int main(int argc, char **argv) {
     }
   }
 
-  ChunkManager manager (shader);
+  ChunkManager manager(shader);
   manager.generateWorld();
   manager.genVBOs();
 
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void *)0);
   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertex),
                         (void *)(3 * sizeof(float)));
-  glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)(6 * sizeof(float)));
+  glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(vertex),
+                        (void *)(6 * sizeof(float)));
 
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);

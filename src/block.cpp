@@ -75,15 +75,14 @@ std::array<vertex, 6> Face(BlockFace face, int x, int y, int z) {
     }};
     break;
   case BlockFace::WEST:
-    return std::array<vertex, 6>{{
-        vertex{1.0f + x, 1.0f + y, 1.0f + z, WEST_COLOR, 1.0f, 0.0f, 0.0f},
-        vertex{1.0f + x, 0.0f + y, 1.0f + z, WEST_COLOR, 1.0f, 0.0f, 0.0f},
-        vertex{1.0f + x, 1.0f + y, 0.0f + z, WEST_COLOR, 1.0f, 0.0f, 0.0f},
+    return std::array<vertex, 6>{
+        {vertex{1.0f + x, 1.0f + y, 1.0f + z, WEST_COLOR, 1.0f, 0.0f, 0.0f},
+         vertex{1.0f + x, 0.0f + y, 1.0f + z, WEST_COLOR, 1.0f, 0.0f, 0.0f},
+         vertex{1.0f + x, 1.0f + y, 0.0f + z, WEST_COLOR, 1.0f, 0.0f, 0.0f},
 
-        vertex{1.0f + x, 0.0f + y, 0.0f + z, WEST_COLOR, 1.0f, 0.0f, 0.0f},
-        vertex{1.0f + x, 1.0f + y, 0.0f + z, WEST_COLOR, 1.0f, 0.0f, 0.0f},
-        vertex{1.0f + x, 0.0f + y, 1.0f + z, WEST_COLOR, 1.0f, 0.0f, 0.0f}
-    }};
+         vertex{1.0f + x, 0.0f + y, 0.0f + z, WEST_COLOR, 1.0f, 0.0f, 0.0f},
+         vertex{1.0f + x, 1.0f + y, 0.0f + z, WEST_COLOR, 1.0f, 0.0f, 0.0f},
+         vertex{1.0f + x, 0.0f + y, 1.0f + z, WEST_COLOR, 1.0f, 0.0f, 0.0f}}};
     break;
   }
 }
