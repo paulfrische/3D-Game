@@ -81,16 +81,19 @@ int main(int argc, char **argv) {
       }
     }
   }
-  Chunk chunk(blocks, 0, 0, shader);
-  chunk.genVBO();
-  Chunk chunk2(blocks, 1, 0, shader);
-  chunk2.genVBO();
+
+  ChunkManager manager (shader);
+  manager.generateWorld();
+  manager.genVBOs();
 
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void *)0);
   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertex),
                         (void *)(3 * sizeof(float)));
+  glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)(6 * sizeof(float)));
+
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
+  glEnableVertexAttribArray(2);
 
   float current_frame = glfwGetTime();
   float last_frame = 0.0f;
@@ -117,8 +120,7 @@ int main(int argc, char **argv) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     /* glDrawArrays(GL_TRIANGLES, 0, 3); */
-    chunk.render();
-    chunk2.render();
+    manager.render();
 
     glfwSwapBuffers(window);
     glfwPollEvents();
