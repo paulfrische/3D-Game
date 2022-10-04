@@ -3,12 +3,12 @@
 #include "block.hpp"
 #include "vertex.hpp"
 
-#define TOP_COLOR    1.0f, 1.0f, 1.0f
+#define TOP_COLOR 1.0f, 1.0f, 1.0f
 #define BOTTOM_COLOR 0.0f, 1.0f, 1.0f
-#define NORTH_COLOR  0.0f, 1.0f, 0.0f
-#define SOUTH_COLOR  0.0f, 0.0f, 1.0f
-#define EAST_COLOR   1.0f, 1.0f, 0.0f
-#define WEST_COLOR   1.0f, 0.0f, 0.0f
+#define NORTH_COLOR 0.0f, 1.0f, 0.0f
+#define SOUTH_COLOR 0.0f, 0.0f, 1.0f
+#define EAST_COLOR 1.0f, 1.0f, 0.0f
+#define WEST_COLOR 1.0f, 0.0f, 0.0f
 
 std::array<vertex, 6> Face(BlockFace face, int x, int y, int z) {
   // TODO: generate/return right faces/vertex arrays

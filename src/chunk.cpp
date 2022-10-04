@@ -26,12 +26,15 @@ Chunk::Chunk(
   m_model_matrix_location = glGetUniformLocation(m_shader, "model");
 
   m_model_matrix = glm::mat4(1.0f);
-  m_model_matrix = glm::translate(m_model_matrix, glm::vec3((float)(m_x * CH_WIDTH), 0.0f, (float)(m_y * CH_DEPTH)));
+  m_model_matrix =
+      glm::translate(m_model_matrix, glm::vec3((float)(m_x * CH_WIDTH), 0.0f,
+                                               (float)(m_y * CH_DEPTH)));
 }
 
 void Chunk::render() {
   glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-  glUniformMatrix4fv(m_model_matrix_location, 1, GL_FALSE, glm::value_ptr(m_model_matrix));
+  glUniformMatrix4fv(m_model_matrix_location, 1, GL_FALSE,
+                     glm::value_ptr(m_model_matrix));
   glDrawArrays(GL_TRIANGLES, 0, m_chunk_vertices.size());
 }
 
@@ -40,8 +43,7 @@ void Chunk::setBlock(unsigned int x, unsigned int y, unsigned int z,
   m_blocks[x][y][z] = block;
 }
 
-unsigned char Chunk::getBlock(unsigned int x, unsigned int y, unsigned z)
-{
+unsigned char Chunk::getBlock(unsigned int x, unsigned int y, unsigned z) {
   return m_blocks[x][y][z];
 }
 
@@ -59,7 +61,8 @@ void Chunk::genVBO() {
                                     end(face));
           }
 
-          if ((x < CH_WIDTH && m_blocks[x + 1][y][z] == 0) || x == CH_WIDTH - 1) {
+          if ((x < CH_WIDTH && m_blocks[x + 1][y][z] == 0) ||
+              x == CH_WIDTH - 1) {
             std::array<vertex, 6> face = Face(BlockFace::WEST, x, y, z);
             m_chunk_vertices.insert(m_chunk_vertices.end(), begin(face),
                                     end(face));
@@ -71,7 +74,8 @@ void Chunk::genVBO() {
                                     end(face));
           }
 
-          if ((y < CH_HEIGHT && m_blocks[x][y + 1][z] == 0) || y == CH_HEIGHT-1) {
+          if ((y < CH_HEIGHT && m_blocks[x][y + 1][z] == 0) ||
+              y == CH_HEIGHT - 1) {
             std::array<vertex, 6> face = Face(BlockFace::TOP, x, y, z);
             m_chunk_vertices.insert(m_chunk_vertices.end(), begin(face),
                                     end(face));
@@ -83,7 +87,8 @@ void Chunk::genVBO() {
                                     end(face));
           }
 
-          if ((z < CH_DEPTH && m_blocks[x][y][z + 1] == 0) || z == CH_DEPTH-1) {
+          if ((z < CH_DEPTH && m_blocks[x][y][z + 1] == 0) ||
+              z == CH_DEPTH - 1) {
             std::array<vertex, 6> face = Face(BlockFace::NORTH, x, y, z);
             m_chunk_vertices.insert(m_chunk_vertices.end(), begin(face),
                                     end(face));
