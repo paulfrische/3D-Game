@@ -132,9 +132,9 @@ void ChunkManager::generateWorld() {
       }
     }
   }
-  for (int x = 0; x < 10; x++) {
+  for (int x = 0; x < CH_COUNT_ROOT; x++) {
     std::vector<Chunk *> chunks{};
-    for (int y = 0; y < 10; y++) {
+    for (int y = 0; y < CH_COUNT_ROOT; y++) {
       Chunk *ch = new Chunk(blocks, x, y, m_shader);
       chunks.push_back(ch);
     }
