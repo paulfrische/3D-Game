@@ -67,11 +67,6 @@ int main(int argc, char **argv) {
   /* unsigned int projection_matrix_location = glGetUniformLocation(shader,
    * "projection"); */
 
-  unsigned int VBO;
-  glGenBuffers(1, &VBO);
-  glBindBuffer(GL_ARRAY_BUFFER, VBO);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(vertex) * 3, vertices, GL_STATIC_DRAW);
-
   Camera cam(glm::vec3(0.0f, 0.0f, 3.0f), 0.0f, -90.0f,
              glm::vec3(0.0f, 1.0f, 0.0f), 5.0f, 0.01f, 45.0f, window, shader);
 
