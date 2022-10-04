@@ -5,9 +5,6 @@
 #include <iostream>
 #include <vector>
 
-// TEMP
-#include <cstdlib>
-
 #include "block.hpp"
 #include "chunk.hpp"
 #include "config.h"
