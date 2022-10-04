@@ -8,7 +8,8 @@ make config=release # for a release build
 ./build/Release/3D-Game
 ```
 ## TODO
-- [x] VSync
 - [x] basic camera
 - [ ] generate block faces
+  - [x] generate outer faces of chunk
+  - [ ] leave faces which are on chunk border but aren't exposed
 - [ ] construct chunks
