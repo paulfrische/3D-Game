@@ -76,12 +76,15 @@ int main(int argc, char **argv) {
   for (int x = 0; x < CH_WIDTH; x++) {
     for (int y = 0; y < CH_HEIGHT; y++) {
       for (int z = 0; z < CH_DEPTH; z++) {
-        blocks[x][y][z] = 1;
+        if (x % 2 == 0)
+          blocks[x][y][z] = 1;
       }
     }
   }
   Chunk chunk(blocks, 0, 0, shader);
   chunk.genVBO();
+  Chunk chunk2(blocks, 1, 0, shader);
+  chunk2.genVBO();
 
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void *)0);
   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertex),
@@ -115,6 +118,7 @@ int main(int argc, char **argv) {
 
     /* glDrawArrays(GL_TRIANGLES, 0, 3); */
     chunk.render();
+    chunk2.render();
 
     glfwSwapBuffers(window);
     glfwPollEvents();
