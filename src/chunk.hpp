@@ -8,7 +8,6 @@
 
 #include "config.h"
 #include "vertex.hpp"
-#include "world.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -23,7 +22,7 @@ public:
         unsigned int x, unsigned int y, unsigned int shader);
   void render();
 
-  void genVBO(World *world);
+  void genVBO();
   void setBlock(unsigned int x, unsigned int y, unsigned int z,
                 unsigned char block);
   unsigned char getBlock(unsigned int x, unsigned int y, unsigned int z);

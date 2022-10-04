@@ -30,7 +30,6 @@ Chunk::Chunk(
 }
 
 void Chunk::render() {
-  std::cout << "RENDER\n";
   glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
   glUniformMatrix4fv(m_model_matrix_location, 1, GL_FALSE, glm::value_ptr(m_model_matrix));
   glDrawArrays(GL_TRIANGLES, 0, m_chunk_vertices.size());
@@ -46,7 +45,7 @@ unsigned char Chunk::getBlock(unsigned int x, unsigned int y, unsigned z)
   return m_blocks[x][y][z];
 }
 
-void Chunk::genVBO(World *world) {
+void Chunk::genVBO() {
   glGenBuffers(1, &m_vbo);
   m_chunk_vertices.clear();
   for (int x = 0; x < CH_WIDTH; x++) {
@@ -54,14 +53,13 @@ void Chunk::genVBO(World *world) {
       for (int z = 0; z < CH_DEPTH; z++) {
         unsigned char block = m_blocks[x][y][z];
         if (block != 0) {
-          /* if ((x > 0 && m_blocks[x - 1][y][z] == 0) || x == 0) { */
-          if (x == 0 || world->getBlock(x - 1, y, z) == 0) {
+          if ((x > 0 && m_blocks[x - 1][y][z] == 0) || x == 0) {
             std::array<vertex, 6> face = Face(BlockFace::EAST, x, y, z);
             m_chunk_vertices.insert(m_chunk_vertices.end(), begin(face),
                                     end(face));
           }
 
-          if (world->getBlock(x + 1, y, z)) {
+          if ((x < CH_WIDTH && m_blocks[x + 1][y][z] == 0) || x == CH_WIDTH - 1) {
             std::array<vertex, 6> face = Face(BlockFace::WEST, x, y, z);
             m_chunk_vertices.insert(m_chunk_vertices.end(), begin(face),
                                     end(face));

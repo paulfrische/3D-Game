@@ -14,8 +14,6 @@
 // chunk
 #include "chunk.hpp"
 
-#include "world.hpp"
-
 // image loading
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
@@ -72,21 +70,18 @@ int main(int argc, char **argv) {
   Camera cam(glm::vec3(0.0f, 0.0f, 3.0f), 0.0f, -90.0f,
              glm::vec3(0.0f, 1.0f, 0.0f), 5.0f, 0.01f, 45.0f, window, shader);
 
-  World world(shader);
-  world.generate();
-
-  /* std::array<std::array<std::array<unsigned char, CH_DEPTH>, CH_HEIGHT>, */
-  /*            CH_WIDTH> */
-  /*     blocks{}; */
-  /* for (int x = 0; x < CH_WIDTH; x++) { */
-  /*   for (int y = 0; y < CH_HEIGHT; y++) { */
-  /*     for (int z = 0; z < CH_DEPTH; z++) { */
-  /*       blocks[x][y][z] = 1; */
-  /*     } */
-  /*   } */
-  /* } */
-  /* Chunk chunk(blocks, 0, 0, shader); */
-  /* chunk.genVBO(); */
+  std::array<std::array<std::array<unsigned char, CH_DEPTH>, CH_HEIGHT>,
+             CH_WIDTH>
+      blocks{};
+  for (int x = 0; x < CH_WIDTH; x++) {
+    for (int y = 0; y < CH_HEIGHT; y++) {
+      for (int z = 0; z < CH_DEPTH; z++) {
+        blocks[x][y][z] = 1;
+      }
+    }
+  }
+  Chunk chunk(blocks, 0, 0, shader);
+  chunk.genVBO();
 
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void *)0);
   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertex),
@@ -119,8 +114,7 @@ int main(int argc, char **argv) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     /* glDrawArrays(GL_TRIANGLES, 0, 3); */
-    /* chunk.render(); */
-    world.render();
+    chunk.render();
 
     glfwSwapBuffers(window);
     glfwPollEvents();
