@@ -14,11 +14,14 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/trigonometric.hpp>
 
-#define chunk_array std::array<std::array<std::array<unsigned char, CH_DEPTH>, CH_HEIGHT>, CH_WIDTH>
+#define chunk_array                                                            \
+  std::array<std::array<std::array<unsigned char, CH_DEPTH>, CH_HEIGHT>,       \
+             CH_WIDTH>
 
 class Chunk {
 public:
-  Chunk(chunk_array *blocks, unsigned int x, unsigned int y, unsigned int shader);
+  Chunk(chunk_array *blocks, unsigned int x, unsigned int y,
+        unsigned int shader);
   ~Chunk();
 
   void render();

@@ -14,8 +14,8 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/trigonometric.hpp>
 
-
-Chunk::Chunk(chunk_array *blocks, unsigned int x, unsigned int y, unsigned int shader)
+Chunk::Chunk(chunk_array *blocks, unsigned int x, unsigned int y,
+             unsigned int shader)
     : m_chunk_vertices() {
   m_blocks = blocks;
   m_x = x;
@@ -29,10 +29,7 @@ Chunk::Chunk(chunk_array *blocks, unsigned int x, unsigned int y, unsigned int s
                                                (float)(m_y * CH_DEPTH)));
 }
 
-Chunk::~Chunk()
-{
-  delete [] m_blocks;
-}
+Chunk::~Chunk() { delete[] m_blocks; }
 
 void Chunk::render() {
   glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
@@ -82,24 +79,26 @@ void ChunkManager::genVBOs() {
                                                begin(face), end(face));
               }
 
-              if (y == CH_HEIGHT - 1 || chunk->m_blocks->at(x).at(y + 1).at(z) == 0) {
+              if (y == CH_HEIGHT - 1 ||
+                  chunk->m_blocks->at(x).at(y + 1).at(z) == 0) {
                 std::array<vertex, 6> face = Face(BlockFace::TOP, x, y, z);
                 chunk->m_chunk_vertices.insert(chunk->m_chunk_vertices.end(),
                                                begin(face), end(face));
               }
 
-              if (z == 0 || chunk->m_blocks->at(x).at(y).at( z - 1 ) == 0) {
+              if (z == 0 || chunk->m_blocks->at(x).at(y).at(z - 1) == 0) {
                 std::array<vertex, 6> face = Face(BlockFace::SOUTH, x, y, z);
                 chunk->m_chunk_vertices.insert(chunk->m_chunk_vertices.end(),
                                                begin(face), end(face));
               }
 
-              if (z == CH_DEPTH - 1 || chunk->m_blocks->at(x).at(y).at(z + 1) == 0) {
+              if (z == CH_DEPTH - 1 ||
+                  chunk->m_blocks->at(x).at(y).at(z + 1) == 0) {
                 std::array<vertex, 6> face = Face(BlockFace::NORTH, x, y, z);
                 chunk->m_chunk_vertices.insert(chunk->m_chunk_vertices.end(),
                                                begin(face), end(face));
               }
-          }
+            }
           }
         }
       }
@@ -120,13 +119,13 @@ void ChunkManager::render() {
 }
 
 void ChunkManager::generateWorld() {
-  chunk_array *blocks = (chunk_array*) malloc(sizeof(chunk_array));
+  chunk_array *blocks = (chunk_array *)malloc(sizeof(chunk_array));
   for (int x = 0; x < CH_WIDTH; x++) {
     for (int y = 0; y < CH_HEIGHT; y++) {
       for (int z = 0; z < CH_DEPTH; z++) {
         srand(time(0));
         /* if (rand() % 2 == 0) */
-          blocks->at(x).at(y).at(z) = 1;
+        blocks->at(x).at(y).at(z) = 1;
       }
     }
   }
