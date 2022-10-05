@@ -14,12 +14,13 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/trigonometric.hpp>
 
+#define chunk_array std::array<std::array<std::array<unsigned char, CH_DEPTH>, CH_HEIGHT>, CH_WIDTH>
+
 class Chunk {
 public:
-  Chunk(std::array<std::array<std::array<unsigned char, CH_DEPTH>, CH_HEIGHT>,
-                   CH_WIDTH>
-            blocks,
-        unsigned int x, unsigned int y, unsigned int shader);
+  Chunk(chunk_array *blocks, unsigned int x, unsigned int y, unsigned int shader);
+  ~Chunk();
+
   void render();
 
   void setBlock(unsigned int x, unsigned int y, unsigned int z,
@@ -29,9 +30,7 @@ public:
   unsigned int m_vbo;
 
   std::vector<vertex> m_chunk_vertices;
-  std::array<std::array<std::array<unsigned char, CH_DEPTH>, CH_HEIGHT>,
-             CH_WIDTH>
-      m_blocks;
+  chunk_array *m_blocks;
 
 private:
   glm::mat4 m_model_matrix = glm::mat4(1.0f);

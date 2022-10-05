@@ -14,11 +14,8 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/trigonometric.hpp>
 
-Chunk::Chunk(
-    std::array<std::array<std::array<unsigned char, CH_DEPTH>, CH_HEIGHT>,
-               CH_WIDTH>
-        blocks,
-    unsigned int x, unsigned int y, unsigned int shader)
+
+Chunk::Chunk(chunk_array *blocks, unsigned int x, unsigned int y, unsigned int shader)
     : m_chunk_vertices() {
   m_blocks = blocks;
   m_x = x;
@@ -32,6 +29,11 @@ Chunk::Chunk(
                                                (float)(m_y * CH_DEPTH)));
 }
 
+Chunk::~Chunk()
+{
+  delete [] m_blocks;
+}
+
 void Chunk::render() {
   glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
   glUniformMatrix4fv(m_model_matrix_location, 1, GL_FALSE,
@@ -41,11 +43,11 @@ void Chunk::render() {
 
 void Chunk::setBlock(unsigned int x, unsigned int y, unsigned int z,
                      unsigned char block) {
-  m_blocks[x][y][z] = block;
+  m_blocks->at(x).at(y).at(z) = block;
 }
 
 unsigned char Chunk::getBlock(unsigned int x, unsigned int y, unsigned z) {
-  return m_blocks[x][y][z];
+  return m_blocks->at(x).at(y).at(z);
 }
 
 ChunkManager::ChunkManager(unsigned int shader) { m_shader = shader; }
@@ -59,47 +61,45 @@ void ChunkManager::genVBOs() {
       for (int x = 0; x < CH_WIDTH; x++) {
         for (int y = 0; y < CH_HEIGHT; y++) {
           for (int z = 0; z < CH_DEPTH; z++) {
-
-            unsigned char block = chunk->m_blocks[x][y][z];
-
+            unsigned char block = chunk->m_blocks->at(x).at(y).at(z);
             if (block != 0) {
-              if (x == 0 || chunk->m_blocks[x - 1][y][z] == 0) {
+              if (x == 0 || chunk->m_blocks->at(x - 1).at(y).at(z) == 0) {
                 std::array<vertex, 6> face = Face(BlockFace::EAST, x, y, z);
                 chunk->m_chunk_vertices.insert(chunk->m_chunk_vertices.end(),
                                                begin(face), end(face));
               }
 
               if (x == CH_WIDTH - 1 ||
-                  x < CH_WIDTH && chunk->m_blocks[x + 1][y][z] == 0) {
+                  x < CH_WIDTH && chunk->m_blocks->at(x + 1).at(y).at(z) == 0) {
                 std::array<vertex, 6> face = Face(BlockFace::WEST, x, y, z);
                 chunk->m_chunk_vertices.insert(chunk->m_chunk_vertices.end(),
                                                begin(face), end(face));
               }
 
-              if (y == 0 || chunk->m_blocks[x][y - 1][z] == 0) {
+              if (y == 0 || chunk->m_blocks->at(x).at(y - 1).at(z) == 0) {
                 std::array<vertex, 6> face = Face(BlockFace::BOTTOM, x, y, z);
                 chunk->m_chunk_vertices.insert(chunk->m_chunk_vertices.end(),
                                                begin(face), end(face));
               }
 
-              if (y == CH_HEIGHT - 1 || chunk->m_blocks[x][y + 1][z] == 0) {
+              if (y == CH_HEIGHT - 1 || chunk->m_blocks->at(x).at(y + 1).at(z) == 0) {
                 std::array<vertex, 6> face = Face(BlockFace::TOP, x, y, z);
                 chunk->m_chunk_vertices.insert(chunk->m_chunk_vertices.end(),
                                                begin(face), end(face));
               }
 
-              if (z == 0 || chunk->m_blocks[x][y][z - 1] == 0) {
+              if (z == 0 || chunk->m_blocks->at(x).at(y).at( z - 1 ) == 0) {
                 std::array<vertex, 6> face = Face(BlockFace::SOUTH, x, y, z);
                 chunk->m_chunk_vertices.insert(chunk->m_chunk_vertices.end(),
                                                begin(face), end(face));
               }
 
-              if (z == CH_DEPTH - 1 || chunk->m_blocks[x][y][z + 1] == 0) {
+              if (z == CH_DEPTH - 1 || chunk->m_blocks->at(x).at(y).at(z + 1) == 0) {
                 std::array<vertex, 6> face = Face(BlockFace::NORTH, x, y, z);
                 chunk->m_chunk_vertices.insert(chunk->m_chunk_vertices.end(),
                                                begin(face), end(face));
               }
-            }
+          }
           }
         }
       }
@@ -120,15 +120,13 @@ void ChunkManager::render() {
 }
 
 void ChunkManager::generateWorld() {
-  std::array<std::array<std::array<unsigned char, CH_DEPTH>, CH_HEIGHT>,
-             CH_WIDTH>
-      blocks;
+  chunk_array *blocks = (chunk_array*) malloc(sizeof(chunk_array));
   for (int x = 0; x < CH_WIDTH; x++) {
     for (int y = 0; y < CH_HEIGHT; y++) {
       for (int z = 0; z < CH_DEPTH; z++) {
         srand(time(0));
-        if (rand() % 2 == 0)
-          blocks[x][y][z] = 1;
+        /* if (rand() % 2 == 0) */
+          blocks->at(x).at(y).at(z) = 1;
       }
     }
   }
