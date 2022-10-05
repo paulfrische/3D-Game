@@ -111,9 +111,9 @@ void ChunkManager::genVBOs() {
 }
 
 void ChunkManager::render() {
-  for (int x = 0; x < m_chunks.size(); x++) {
-    for (int y = 0; y < m_chunks.at(x).size(); y++) {
-      m_chunks.at(x).at(y)->render();
+  for (auto chunk_row : m_chunks) {
+    for (auto chunk : chunk_row) {
+      chunk->render();
     }
   }
 }
