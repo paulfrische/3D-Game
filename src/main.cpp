@@ -117,7 +117,7 @@ int main(int argc, char **argv) {
     /* glUniformMatrix4fv(projection_matrix_location, 1, GL_FALSE,
      * glm::value_ptr(projection_matrix)); */
 
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClearColor(135.0f/255.0f, 1.0f, 245.0f/255.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     /* glDrawArrays(GL_TRIANGLES, 0, 3); */
