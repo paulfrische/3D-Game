@@ -53,6 +53,10 @@ int main(int argc, char **argv) {
   GLFWwindow *window = setup();
   glfwSetCursorPosCallback(window, mouse_callback);
 
+  unsigned int VAO;
+  glGenVertexArrays(1, &VAO);
+  glBindVertexArray(VAO);
+
   unsigned int shader =
       make_program("./src/shader/vertex.glsl", "./src/shader/fragment.glsl");
   glUseProgram(shader);
