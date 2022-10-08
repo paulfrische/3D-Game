@@ -1,4 +1,7 @@
 # 3D-Game
+
+<a href="https://github.com/PythonPizzaDE/Voxel-Rust">Great Rust rewrite</a>
+
 This should be a little Voxel game/demo.
 ## Compiling
 To build you'll need to install premake5, glew and glfw.
